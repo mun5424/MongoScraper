@@ -1,0 +1,62 @@
+<div class="container">
+    <div class="col-md-12 col-md-offset-3 col-sm-12 col-sm-offset-1 col-xs-12">
+        <div class="panel panel-default">
+            <div class="panel-heading text-center">
+                <h1>Article</h1>
+            </div>
+            <div class="panel-body">
+                <div class="article-container">
+                    <p hidden=true id="articleId">{{_id}}</p>
+                    <h2> {{title}} </h2>
+                    <p> {{content}} </p>
+                </div>
+
+                <div class="article-notes">
+                    <h2>Notes </h2>
+                    {{#each note}}
+                    <div class="note">
+                    <p>Title: {{this.title}} </p>
+                    <p> Description: {{this.body}} </p>
+                    <button class="btn btn-danger">delete</button>
+                    </div>
+                    {{/each }}
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Title</label>
+                            <input type="text" class="form-control" id="noteTitle" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputPassword1">Description </label>
+                            <input type="text" class="form-control" id="noteBody" required >
+                        </div>
+                        <button type="submit" class="btn btn-primary" id="add-note">Submit</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script> 
+
+    $(document).on("click", "#add-note", function () {
+        // AJAX POST call to the submit route on the server
+        // This will take the data from the form and send it to the server
+        $.ajax({
+            type: "POST",
+            dataType: "json",
+            url: "/articles/" + $("#articleId").text(),
+            data: {
+                title: $("#noteTitle").val(),
+                body: $("#noteBody").val()
+            }
+        })
+            // If that API call succeeds, add the title and a delete button for the note to the page
+            .then(function (data) {
+
+                $(".article-notes").prepend();
+                $("#noteTitle").val("");
+                $("#noteBody").val("");
+            }
+            );
+    });
+</script>

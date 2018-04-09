@@ -1,0 +1,30 @@
+.jumbotron { 
+    text-align: center;
+}
+
+.article-container{
+    width: 100%;
+    clear: both;
+}
+
+.article-content {
+    float: left;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.note-button {
+    float: right;
+    margin: 20px;
+}
+
+.article-notes {
+    text-align: center;
+    display: block;
+}
+
+#noteTitle, #noteBody {
+    width: 100%; 
+}

@@ -1,0 +1,35 @@
+<div class="container">
+    <div class="col-md-12 col-md-offset-3 col-sm-12 col-sm-offset-1 col-xs-12">
+        <div class="panel panel-default">
+            <div class="panel-heading text-center">
+                <h1>Article Note </h1>
+            </div>
+            <div class="panel-body">
+                {{#each articles}}
+                <div class="article-container" >
+                    <div class="col-md-10 article-content"> 
+                        <p hidden=true> {{_id}} </p>
+                        <h2> {{title}} </h2>
+                        <p> {{content}} </p>
+                    </div>
+                        <a data-id={{id}} class="btn btn-primary note-button" href="/articles/{{_id}}">Notes </a>
+                </div>
+                    {{/each}}
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+    $(".note-button").on("click", function () {
+        var id = $(this).data("id");
+        
+        $.ajax({
+            method: "GET",
+            url: "/articles/" + id,
+        }).then(function (data) {
+        });
+    });
+</script>
