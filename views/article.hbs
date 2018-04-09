@@ -12,35 +12,36 @@
                 </div>
 
                 <div class="article-notes">
+                    {{#if note}}
                     <h2>Notes </h2>
-                    {{#each note}}
                     <div class="note">
-                    <p>Title: {{this.title}} </p>
-                    <p> Description: {{this.body}} </p>
-                    <button class="btn btn-danger">delete</button>
+                        <p class="note-title">Title: {{note.title}} </p>
+                        <p class="note-title"> Description: {{note.body}} </p>
+                        <button class="btn btn-danger " id="delete-note" data-id="{{note.id}}">Delete</button>
                     </div>
-                    {{/each }}
-                        <div class="form-group">
-                            <label for="exampleInputEmail1">Title</label>
-                            <input type="text" class="form-control" id="noteTitle" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="exampleInputPassword1">Description </label>
-                            <input type="text" class="form-control" id="noteBody" required >
-                        </div>
-                        <button type="submit" class="btn btn-primary" id="add-note">Submit</button>
+                </div>
+                {{/if}}
+                <div class="new-notes">
+                    <h2> Add a New Note</h2>
+                    <div class="form-group">
+                        <label for="noteTitle">Title</label>
+                        <input type="text" class="form-control" id="noteTitle" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="noteBody">Description </label>
+                        <input type="text" class="form-control" id="noteBody" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary" id="add-note">Submit</button>
                 </div>
             </div>
         </div>
-
     </div>
+
 </div>
 
 <script> 
 
     $(document).on("click", "#add-note", function () {
-        // AJAX POST call to the submit route on the server
-        // This will take the data from the form and send it to the server
         $.ajax({
             type: "POST",
             dataType: "json",
@@ -50,7 +51,6 @@
                 body: $("#noteBody").val()
             }
         })
-            // If that API call succeeds, add the title and a delete button for the note to the page
             .then(function (data) {
 
                 $(".article-notes").prepend();
@@ -58,5 +58,36 @@
                 $("#noteBody").val("");
             }
             );
+    });
+
+    $(document).on("click", "#add-note", function () {
+        $.ajax({
+            type: "POST",
+            dataType: "json",
+            url: "/articles/" + $("#articleId").text(),
+            data: {
+                title: $("#noteTitle").val(),
+                body: $("#noteBody").val()
+            }
+        })
+            .then(function (data) {
+
+                $(".article-notes").prepend();
+                $("#noteTitle").val("");
+                $("#noteBody").val("");
+            }
+            );
+    });
+    
+    $(document).on("click", "#delete-note", function () {
+        var id = $(this).data("id");
+        
+        $.ajax({
+            method: "GET",
+            url: "/delete/" + id,
+        }).then(function (data) {
+            $(this).parent.hide(); 
+
+        });
     });
 </script>

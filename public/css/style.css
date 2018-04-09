@@ -15,14 +15,28 @@
     text-align: center;
 }
 
+.note {
+    width: 80%;
+    margin: auto;
+    padding: 10px;
+}
+.note-title {
+    float: left;
+    padding: 10px;
+}
 .note-button {
     float: right;
     margin: 20px;
 }
+.delete-note {
+    float: right;
+    margin: 5px;
+}
 
 .article-notes {
     text-align: center;
-    display: block;
+    display: block ;
+    margin-bottom: 30px;
 }
 
 #noteTitle, #noteBody {

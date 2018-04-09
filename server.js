@@ -6,7 +6,6 @@ var request = require("request");
 var cheerio = require("cheerio");
 var exphbs = require("express-handlebars");
 
-// Require all models
 var db = require("./models");
 
 var PORT = 3000;
@@ -106,18 +105,35 @@ app.post("/articles/:id", function (req, res) {
     })
     .then(function (dbArticle) {
       console.log(dbArticle); 
-      res.redirect("/articles/" + dbArticle._id);
+      res.json(dbArticle); 
     })
     .catch(function (err) {
       res.json(err);
     });
 });
 
+app.get("/delete/:id", function(req, res) {
+  db.Note.remove(
+    {
+      _id: req.params.id
+    },
+    function(error, removed) {
+      if (error) {
+        console.log(error);
+        res.send(error);
+      }
+      else {
+        console.log(removed);
+        res.send(removed);
+      }
+    }
+  );
+});
+
 app.get("*", function (req, res) {
   res.json("404: not found");
 });
 
-// Start the server
 app.listen(PORT, function () {
   console.log("App running on port " + PORT + "!");
 });
